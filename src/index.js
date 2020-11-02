@@ -1,17 +1,53 @@
+import './index.css';
+import GIFView from './gifView'
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import { Header, Icon, Divider} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import { Jumbotron, Container } from 'react-bootstrap';
+
+function MainView() {
+  return (
+    <Container className="main">
+
+      <Jumbotron className="py-2">
+
+        <Header as="h1">
+          <Icon name="image" />
+          GIPHY Viewer
+        </Header>
+        
+        <Divider/>
+      </Jumbotron>
+      
+      <GIFView/>
+      
+    </Container>
+  );
+}
+
+ReactDOM.render(<MainView />, document.getElementById('root'), function() {
+});
+
+export { MainView }
+// Share to fb
+
+// $.getScript('https://connect.facebook.net/en_US/sdk.js', function(){
+//     window.FB.init({
+//       appId: '397263621474279',
+//       version: 'v2.7' // or v2.1, v2.2, v2.3, ...
+//     });
+//     console.log(window.FB);
+//     window.FB.ui({
+//       method: 'share',
+//       href: 'https://developers.facebook.com/docs/'
+//     }, (response) => {
+
+//     })
+// });
+
+
+

@@ -1,10 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
-import { Modal, Label, Image, Message, Loader, Dimmer, Container, Input, Menu, Segment } from 'semantic-ui-react'
+import { Label, Image, Message, Loader, Dimmer, Container, Input, Menu, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-
-import { Row, Col } from 'react-bootstrap';
 
 import giphyManager from './giphyManager'
 
@@ -177,6 +174,7 @@ export default class GIFView extends React.Component {
 
   onSearchChange = (e) => {
     // Only perform the search after a timeout
+    e.persist();
 
     clearTimeout(this.timeoutRef);
     this.timeoutRef = setTimeout(() => {
@@ -246,7 +244,7 @@ export default class GIFView extends React.Component {
     }, 1000 )
   }
 
-  openShareModal = (id) => {
+  openShareModal = () => {
     this.setState({ openShareModal: true })
   }
 
@@ -314,7 +312,7 @@ export default class GIFView extends React.Component {
       let maxCols = 4; // max images per row
       let marginRight = 4; // margin in pixels
       let marginBottom = marginRight;
-      
+      let bottomMost = 0;
       // Find the most suitable # of columns for the respective screen width
       let windowW = window.innerWidth;
 
@@ -335,7 +333,7 @@ export default class GIFView extends React.Component {
         
         // x of the image is the "right" of the image before it
         // y of the image is the "bottom" of the image in the previous row of the same column
-        let posX = i % columns == 0 ? left : images[i - 1].right;
+        let posX = i % columns === 0 ? left : images[i - 1].right;
         let posY = i < columns ? 0 : images[i - columns].bottom;
 
         const aspectRatio = gif.originalW / gif.originalH;
@@ -346,6 +344,10 @@ export default class GIFView extends React.Component {
 
         const iconName = gif.favorite  ? "star" : "star outline";
 
+        if (images[i].bottom > bottomMost) {
+          bottomMost = images[i].bottom;
+        }
+
         buffer.push(
           <Dimmer.Dimmable key={i} style={{
             position: "absolute", 
@@ -355,7 +357,7 @@ export default class GIFView extends React.Component {
               <Label basic content={that.state.imageDimmerLabel} icon="linkify" size="big"/>
             </Dimmer>
             <Image>
-              <img src={gif.image} width={imageW} height={imageH}/>
+              <img alt="Gif" src={gif.image} width={imageW} height={imageH}/>
               <Label 
                 as='a'
                 color='yellow'
@@ -380,7 +382,6 @@ export default class GIFView extends React.Component {
     
       // Set height of the menu so the borders of the menu precisely fits the view
       // Nothing we can do about the width, however (hardcoded by semantic based on screen width)
-      let bottomMost = images[images.length - 1].bottom;
       container.style.setProperty("height", bottomMost + "px");
 
       return (
@@ -400,7 +401,6 @@ export default class GIFView extends React.Component {
 
 
   render() {
-    const { activeTab: activeTab } = this.state
     
     return (
       <Container>
@@ -408,17 +408,17 @@ export default class GIFView extends React.Component {
           <Menu.Item
             name={this.tabs.Search}
             icon="search"
-            active={activeTab === this.tabs.Search }
+            active={this.state.activeTab === this.tabs.Search }
             onClick={this.onTabClick}
           />
           <Menu.Item
             name={this.tabs.Favorites}
             icon="favorite"
-            active={activeTab === this.tabs.Favorites}
+            active={this.state.activeTab === this.tabs.Favorites}
             onClick={this.onTabClick}
           />
           <Menu.Menu position='right'>
-            { activeTab === this.tabs.Search ?             
+            { this.state.activeTab === this.tabs.Search ?             
               <Input
                 className="mr-2"
                 id="searchBar"

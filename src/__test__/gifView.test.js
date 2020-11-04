@@ -1,12 +1,9 @@
 import React from 'react'
-import renderer from 'react-test-renderer';
-import ReactDOM from 'react-dom'
 
 import GIFView, { tabs } from '../gifView'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import { Modal, Label, Image, Message, Loader, Dimmer, Container, Input, Menu, Segment } from 'semantic-ui-react'
 
 configure({ adapter: new Adapter() })
 
@@ -34,17 +31,3 @@ fit ('renders view', () => {
     
 
 })
-// it('render GIFView', () => {
-//     const component = renderer.create(<GIFView />);
-//     const tree = component.toJSON();
-//     expect(tree).toMatchSnapshot();
-
-//     tree.onTabClick(null, { name: tabs.Favorites });
-//     tree = component.toJSON();
-//     expect(tree).toMatchSnapshot();
-// })
-
-
-
-
-

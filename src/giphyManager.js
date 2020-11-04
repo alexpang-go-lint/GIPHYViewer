@@ -12,7 +12,7 @@ var giphyManager = function() {
     }
   }
 
-  this.onError = function(err, callback) {
+  this.onError = function(_err, callback) {
     alert("Error fetching from GIPHY");
     
     if (typeof callback === "function") {
@@ -70,7 +70,6 @@ giphyManager.prototype.searchGIF = function(searchTerm, offset, callback) {
  * @param {function} callback on success, includes a response from the API as an argument, null if error
  */
 giphyManager.prototype.getGIFs = function(ids, callback) {
-  let that = this;
   let idQuery = "";
   for (let i = 0; i < ids.length; i++) {
     const id = ids[i];
